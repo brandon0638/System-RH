@@ -8,23 +8,36 @@ use App\Models\TypeCongeModel;
 
 class EmployeController extends BaseController
 {
-    public function dashboard()
+   public function dashboard()
     {
         $user = session()->get('user');
         $congeModel = new CongeModel();
         $soldeModel = new SoldeModel();
         
-        // Statistiques
+        // Récupérer TOUTES les demandes
         $demandes = $congeModel->getDemandesByEmploye($user['id']);
-        $en_attente = count(array_filter($demandes, fn($d) => $d['statut'] === 'en_attente'));
-        $approuvees = count(array_filter($demandes, fn($d) => $d['statut'] === 'approuvee'));
-        $refusees = count(array_filter($demandes, fn($d) => $d['statut'] === 'refusee'));
+        
+        // Compter les demandes par statut
+        $en_attente = 0;
+        $approuvees = 0;
+        $refusees = 0;
+        
+        foreach ($demandes as $d) {
+            switch ($d['statut']) {
+                case 'en_attente': $en_attente++; break;
+                case 'approuvee': $approuvees++; break;
+                case 'refusee': $refusees++; break;
+            }
+        }
+        
+        // Total des demandes
+        $total_demandes = count($demandes);
         
         // Soldes
         $soldes = $soldeModel->getSoldesByEmploye($user['id']);
         $total_restant = array_sum(array_column($soldes, 'restant_jours'));
         
-        // Dernières demandes
+        // Dernières demandes (3 plus récentes)
         $dernieres = array_slice($demandes, 0, 3);
         
         return view('employe/dashboard', [
@@ -32,6 +45,7 @@ class EmployeController extends BaseController
             'approuvees' => $approuvees,
             'refusees' => $refusees,
             'total_restant' => $total_restant,
+            'total_demandes' => $total_demandes,
             'soldes' => $soldes,
             'dernieres' => $dernieres,
             'user' => $user
@@ -61,7 +75,7 @@ class EmployeController extends BaseController
         ]);
     }
     
-    public function store()
+   public function store()
     {
         $user = session()->get('user');
         $congeModel = new CongeModel();
@@ -77,7 +91,8 @@ class EmployeController extends BaseController
             return redirect()->back()->with('error', 'Tous les champs obligatoires doivent être remplis.')->withInput();
         }
         
-        // Vérifier que date_debut >= date_fin
+        $type_conge_id = (int)$type_conge_id;
+        
         if ($date_debut >= $date_fin) {
             return redirect()->back()->with('error', 'La date de fin doit être postérieure à la date de début.')->withInput();
         }
@@ -87,10 +102,21 @@ class EmployeController extends BaseController
         $fin = new \DateTime($date_fin);
         $nb_jours = $debut->diff($fin)->days + 1;
         
-        // Vérifier solde
-        $solde = $soldeModel->getSoldeByType($user['id'], $type_conge_id);
-        if (!$solde || $solde['restant_jours'] < $nb_jours) {
-            return redirect()->back()->with('error', 'Solde insuffisant pour ce type de congé.')->withInput();
+        // IMPORTANT: Utiliser l'année de la date de début
+        $annee_demande = date('Y', strtotime($date_debut));
+        
+        // Récupérer le solde avec l'année de la demande
+        $solde = $soldeModel->where('employe_id', $user['id'])
+                            ->where('type_conge_id', $type_conge_id)
+                            ->where('annee', $annee_demande)
+                            ->first();
+        
+        if (!$solde) {
+            return redirect()->back()->with('error', 'Aucun solde trouvé pour l\'année ' . $annee_demande . '. Contactez les RH.')->withInput();
+        }
+        
+        if ($solde['restant_jours'] < $nb_jours) {
+            return redirect()->back()->with('error', 'Solde insuffisant. Disponible: ' . $solde['restant_jours'] . ' jours, Demandé: ' . $nb_jours . ' jours.')->withInput();
         }
         
         // Vérifier chevauchement
@@ -106,7 +132,8 @@ class EmployeController extends BaseController
             'date_fin' => $date_fin,
             'nb_jours' => $nb_jours,
             'motif' => $motif,
-            'statut' => 'en_attente'
+            'statut' => 'en_attente',
+            'created_at' => date('Y-m-d H:i:s')
         ];
         
         if ($congeModel->insert($data)) {
@@ -154,10 +181,17 @@ class EmployeController extends BaseController
     {
         $user = session()->get('user');
         $employeModel = new \App\Models\EmployeModel();
+        $congeModel = new CongeModel();
+        
         $employe = $employeModel->find($user['id']);
+        
+        // Récupérer le nombre total de demandes
+        $demandes = $congeModel->getDemandesByEmploye($user['id']);
+        $total_demandes = count($demandes);
         
         return view('employe/profil', [
             'employe' => $employe,
+            'total_demandes' => $total_demandes,
             'user' => $user
         ]);
     }
@@ -188,5 +222,31 @@ class EmployeController extends BaseController
         ]);
         
         return redirect()->back()->with('success', 'Mot de passe modifié avec succès. Nouveau mot de passe : ' . $password);
+    }
+
+    public function modifierNom()
+    {
+        $user = session()->get('user');
+        $employeModel = new \App\Models\EmployeModel();
+        
+        $nouveau_nom = trim($this->request->getPost('nom'));
+        
+        if (empty($nouveau_nom)) {
+            return redirect()->back()->with('error', 'Le nom ne peut pas être vide.');
+        }
+        
+        if (strlen($nouveau_nom) < 3) {
+            return redirect()->back()->with('error', 'Le nom doit contenir au moins 3 caractères.');
+        }
+        
+        // Mettre à jour le nom
+        $employeModel->update($user['id'], [
+            'nom' => $nouveau_nom
+        ]);
+        
+        // Mettre à jour la session
+        session()->set('user', array_merge($user, ['nom' => $nouveau_nom]));
+        
+        return redirect()->back()->with('success', 'Nom modifié avec succès. Nouveau nom : ' . $nouveau_nom);
     }
 }

@@ -44,14 +44,22 @@
             <?php endif; ?>
 
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
-                <!-- Informations personnelles -->
+                <!-- Formulaire modification nom -->
                 <div class="form-section">
-                    <h3><i class="bi bi-person-badge"></i> Informations personnelles</h3>
+                    <h3><i class="bi bi-person-badge"></i> Modifier mon nom</h3>
                     
-                    <div class="f-group">
-                        <label class="f-label">Nom complet</label>
-                        <input type="text" class="f-input" value="<?= esc($employe['nom']) ?>" readonly disabled>
-                    </div>
+                    <form action="<?= base_url('/employe/modifier-nom') ?>" method="post">
+                        <?= csrf_field() ?>
+                        <div class="f-group">
+                            <label class="f-label">Nom complet</label>
+                            <input type="text" name="nom" class="f-input" value="<?= esc($employe['nom']) ?>" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn-forest"><i class="bi bi-save"></i> Mettre à jour</button>
+                        </div>
+                    </form>
+                    
+                    <hr style="border-color:var(--border);margin:1.5rem 0">
                     
                     <div class="f-group">
                         <label class="f-label">Email</label>
@@ -69,7 +77,7 @@
                     </div>
                 </div>
 
-                <!-- Statistiques -->
+                <!-- Statistiques et mot de passe -->
                 <div>
                     <div class="form-section">
                         <h3><i class="bi bi-graph-up"></i> Statistiques</h3>
@@ -100,7 +108,7 @@
                         <div>
                             <div style="display:flex;justify-content:space-between;margin-bottom:8px">
                                 <span class="solde-type">Total demandes</span>
-                                <span class="solde-nums"><strong><?= isset($total_demandes) ? $total_demandes : 0 ?></strong> demandes</span>
+                                <span class="solde-nums"><strong><?= $total_demandes ?? 0 ?></strong> demandes</span>
                             </div>
                             <div class="solde-bar"><div class="solde-fill" style="width:100%"></div></div>
                         </div>

@@ -1165,3 +1165,144 @@ code, pre, .mono {
         padding: 1rem;
     }
 }
+
+
+
+/* Modal styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: var(--white);
+    border-radius: 12px;
+    max-width: 500px;
+    width: 90%;
+    padding: 1.5rem;
+}
+
+.btn-approve {
+    background: var(--success-bg);
+    color: var(--success);
+    border-color: var(--success-br);
+}
+
+.btn-approve:hover {
+    background: #d5f0e3;
+}
+
+.btn-refuse {
+    background: var(--danger-bg);
+    color: var(--danger);
+    border-color: var(--danger-br);
+}
+
+.btn-refuse:hover {
+    background: #f8dbd8;
+}
+
+/* RH Specific */
+.badge-attente {
+    font-size: .8rem;
+    color: var(--warn);
+    background: var(--warn-bg);
+    border: 1px solid var(--warn-br);
+    border-radius: 6px;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.filter-group {
+    display: flex;
+    gap: 6px;
+}
+
+.filter-select {
+    font-size: .8rem;
+    padding: 6px 10px;
+    width: auto;
+}
+
+.solde-dispo {
+    color: var(--success);
+    font-weight: 500;
+}
+
+.solde-insuffisant {
+    color: var(--danger);
+    font-weight: 500;
+}
+
+.solde-cell {
+    min-width: 80px;
+}
+
+.solde-numbers {
+    font-size: .75rem;
+    margin-bottom: 2px;
+}
+
+.total-restant {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.success-text {
+    color: var(--success);
+}
+
+.danger-text {
+    color: var(--danger);
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: var(--white);
+    border-radius: 12px;
+    max-width: 500px;
+    width: 90%;
+    padding: 1.5rem;
+}
+
+.info-text {
+    color: var(--success);
+    margin-bottom: 1rem;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.mi-blue {
+    background: var(--info-bg);
+    color: var(--info);
+}
+.table-responsive {
+    overflow-x: auto;
+}
+.solde-fill.danger {
+    background: var(--danger);
+}
