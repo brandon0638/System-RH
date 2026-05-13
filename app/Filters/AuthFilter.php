@@ -13,10 +13,10 @@ class AuthFilter implements FilterInterface
         $session = session();
         
         if (!$session->get('user')) {
-            return redirect()->to('/login')->with('erreur', 'Veuillez vous connecter');
+            return redirect()->to('/login')->with('error', 'Veuillez vous connecter pour accéder à cette page.');
         }
     }
-    
+
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
     {
         // Rien après
