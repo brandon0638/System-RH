@@ -1,150 +1,115 @@
-# Back Office - Realise
-
+# TODO Complet - Gestion des congés TechMada RH (CI4 + SQLite)
 
 ### 1. Configuration du projet
- 
-- [x] Configuration de app/Config/Database.php
-- [x] Configuration de app/Config/Routes.php (routes back office)
+
+- [x] Configuration de app/Config/Database.php (SQLite)
+
+- [x] Configuration de app/Config/Routes.php (routes employé)
+
 - [x] Configuration de app/Config/Filters.php (filtres auth et role)
 
-### 2. Base de donnee
+- [x] Vérification que PDO SQLite est activé
 
-- [x] Création du script SQL complet (initdb_brandon.sql)
-- [x] Table User (id, nom, email, password, genre, taille, poids, IMC, balance, role)
-- [x] Table Regime (id, nom, description, prix_par_jour, duree_jours, variation_poids_grammes)
-- [x] Table RegimeComposition (id, idRegime, type_viande, pourcentage)
-- [x] Table Sport (id, nom, description, variation_poids_grammes, calories_par_heure)
-- [x] Table Code (id, code, valeur, utilise, expire_le)
-- [x] Table Parametre (id, cle, valeur, description)
-- [x] Table Option (id, label, prix, reduction)
-- [x] Table OptionUser (id, idUser, idOption, date_achat)
-- [x] Table UserHealth (id, idUser, taille_cm, poids_kg, imc, date_enregistrement)
-- [x] Insertion des données minimales (5 users, 5 régimes, 5 sports, 15 codes, 4 paramètres)
+- [x] Création de app/Controllers/BaseController.php
+
+### 2. Base de données (Migrations SQLite)
+
+- [x] Migration departements
+
+- [x] Migration types_conge
+
+- [x] Migration employes
+
+- [x] Migration soldes
+
+- [x] Migration conges
 
 ### 3. Filtres
 
 - [x] Création du filtre AuthFilter.php (vérifie si utilisateur connecté)
-- [x] Création du filtre RoleFilter.php (vérifie le rôle admin)
+
+- [x] Création du filtre RoleFilter.php (vérifie le rôle)
 
 ### 4. Authentification
 
 - [x] Création de AuthController.php
+
 - [x] Page de login stylisée (auth/login.php)
-- [x] Vérification email/mot de passe (mots de passe simples : 1234 pour admin)
-- [x] Stockage des infos utilisateur en session (id, nom, email, role)
-- [x] Redirection admin vers /admin/dashboard
-- [x] Redirection user vers /login (en attendant le Front Office)
+
+- [x] Vérification email/mot de passe
+
+- [x] Stockage des infos utilisateur en session
+
+- [x] Redirection selon rôle (employe, rh, admin)
+
 - [x] Déconnexion (/logout)
 
-### 5. Dashboard Admin
+### 5. Modèles
 
-- [x] Création de DashboardController.php
-- [x] Vue dashboard.php avec cartes statistiques
-- [x] Affichage du nombre total d'utilisateurs
-- [x] Affichage du nombre total de régimes
-- [x] Affichage du nombre total de sports
-- [x] Affichage du nombre total de codes
-- [x] Affichage des codes utilisés/non utilisés
-- [x] Affichage des derniers utilisateurs inscrits
-- [x] Graphique variation de poids par régime
-- [x] Graphique impact des sports
-- [x] Chargement des données via AJAX
-- [x] Auto-refresh des graphiques toutes les 30 secondes
+- [x] EmployeModel.php
 
-### 6. CRUD Régimes
+- [x] CongeModel.php
 
-- [x] Création de RegimeController.php
-- [x] Création de RegimeModel.php
-- [x] Création de RegimeCompositionModel.php
-- [x] Liste des régimes avec DataTable
-- [x] Formulaire ajout/modification
-- [x] Ajout d'un régime
-- [x] Modification d'un régime
-- [x] Suppression d'un régime
-- [x] Gestion du prix par jour
-- [x] Gestion de la durée en jours
-- [x] Gestion de la variation de poids (grammes/jour) 
-- [x] Gestion des pourcentages viande/poisson/volaille
-- [x] Validation de la somme des pourcentages = 100%
-- [x] Affichage des badges de composition
+- [x] SoldeModel.php
 
-### 7. CRUD Sports
+- [x] TypeCongeModel.php
 
-- [x] Création de SportController.php
-- [x] Création de SportModel.php
-- [x] Liste des sports avec DataTable
-- [x] Formulaire ajout/modification
-- [x] Ajout d'un sport
-- [x] Modification d'un sport
-- [x] Suppression d'un sport
-- [x] Gestion de la variation de poids
-- [x] Gestion des calories par heure (optionnel)
+### 6. Vues Employé
 
-### 8. CRUD Codes
+- [x] layouts/app.php
 
-- [x] Création de CodeController.php
-- [x] Création de CodeModel.php
-- [x] Liste des codes avec DataTable
-- [x] Formulaire ajout/modification
-- [x] Ajout d'un code
-- [x] Modification d'un code
-- [x] Suppression d'un code
-- [x] Gestion du code unique
-- [x] Gestion de la valeur en euros
-- [x] Gestion de la date d'expiration (optionnelle)
-- [x] Affichage du statut (Disponible/Utilisé)
+- [x] auth/login.php
 
-### 9. CRUD Paramètres
+- [x] employe/dashboard.php
 
-- [x] Création de ParametreController.php
-- [x] Création de ParametreModel.php
-- [x] Liste des paramètres
-- [x] Formulaire modification
-- [x] Modification des valeurs des paramètres
-- [x] Paramètres par défaut (gold_prix, gold_reduction, site_name, contact_email)
+- [x] employe/create.php
 
-### 10. Design & Intégration
+- [x] employe/index.php
 
-- [x] Création du layout admin (admin/layouts/admin_layout.php)
-- [x] Sidebar avec navigation (Dashboard, Régimes, Sports, Codes, Paramètres)
-- [x] Affichage des informations utilisateur connecté dans la sidebar
-- [x] Bouton de déconnexion
-- [x] Loading overlay pour les requêtes AJAX
-- [x] Notifications toast (succès/erreur)
-- [x] Aucun CSS/JS dans les vues PHP (tout dans public/assets/)
+- [x] employe/profil.php
 
-### 11. Fichiers CSS
 
-- [x] public/assets/css/admin.css (styles principaux)
-- [x] public/assets/css/login.css (page de connexion)
-- [x] public/assets/css/responsive.css (responsive mobile/tablette)
+### 7. Espace Employé - Fonctionnalités
 
-### 12. Fichiers JavaScript
 
-- [x] public/assets/js/admin.js (fonctions globales)
-- [x] public/assets/js/dashboard.js (graphiques et stats)
-- [x] public/assets/js/regimes.js (CRUD régimes AJAX)
-- [x] public/assets/js/sports.js (CRUD sports AJAX)
-- [x] public/assets/js/codes.js (CRUD codes AJAX)
-- [x] public/assets/js/parametres.js (CRUD paramètres AJAX)
+- [x] Dashboard avec cartes statistiques
 
-### 13. HomeController
+- [x] Affichage des soldes de congés
 
-- [x] Création de HomeController.php
-- [x] Redirection vers /login par défaut
-- [x] Si admin déjà connecté, redirection vers /admin/dashboard
+- [x] Affichage des dernières demandes
 
-### 14. Validation et sécurité
+- [x] Formulaire de demande de congé
 
-- [x] Validation des formulaires (côté serveur)
-- [x] Messages d'erreur personnalisés
-- [x] Protection CSRF
-- [x] Filtre d'authentification pour routes protégées
-- [x] Filtre de rôle pour les routes admin
+- [x] Validation solde suffisant
 
-### 15. Responsive
+- [x] Validation pas de chevauchement
 
-- [x] Sidebar réductible sur mobile
-- [x] Grille responsive des cartes statistiques
-- [x] Tableaux adaptatifs
-- [x] Formulaires adaptatifs
+- [x] Calcul automatique du nombre de jours
+
+- [x] Liste des demandes de congé
+
+- [x] Annulation d'une demande en attente
+
+- [x] Changement de mot de passe
+
+- [x] Messages flash succès/erreur
+
+
+### 8. Fichiers Assets
+
+- [x] public/assets/css/style.css
+
+- [x] public/assets/js/main.js
+
+
+### 9. Seeders
+
+- [x] Création du seeder FitspaceSeeder.php
+
+- [x] Insertion des départements (IT, RH, Finance, Marketing)
+
+- [x] Insertion des types de congé (Annuel, Maladie, Spécial)
+
+- [x] Insertion des employés (admin, rh, employe)
+
+- [x] Insertion des soldes initiaux
