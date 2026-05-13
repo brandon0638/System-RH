@@ -1,5 +1,7 @@
 # TODO Complet - Gestion des congés TechMada RH (CI4 + SQLite)
 
+## Employee
+
 ### 1. Configuration du projet
 
 - [x] Configuration de app/Config/Database.php (SQLite)
@@ -113,3 +115,84 @@
 - [x] Insertion des employés (admin, rh, employe)
 
 - [x] Insertion des soldes initiaux
+
+
+
+## Espace RH - À réaliser
+
+### 1. Contrôleur RH
+
+- [x] Création de app/Controllers/RhController.php
+
+- [x] Méthode dashboard() - Vue d'ensemble RH
+
+- [x] Méthode index() - Liste des demandes à traiter
+
+- [x] Méthode approuver($id) - Approuver une demande + déduire solde
+
+- [x] Méthode refuser($id) - Refuser une demande + commentaire obligatoire
+
+- [x] Méthode historique() - Demandes déjà traitées
+
+- [x] Méthode soldes() - Visualisation des soldes par employé
+
+- [x] Méthode filtrer() - Filtrage par département/statut
+
+### 2. Routes RH
+
+- [x] $routes->get('rh/dashboard', 'RhController::dashboard')
+
+- [x] $routes->get('rh/demandes', 'RhController::index')
+
+- [x] $routes->post('rh/approuver/(:num)', 'RhController::approuver/$1')
+
+- [x] $routes->post('rh/refuser/(:num)', 'RhController::refuser/$1')
+
+- [x] $routes->get('rh/historique', 'RhController::historique')
+
+- [x] $routes->get('rh/soldes', 'RhController::soldes')
+
+- [x] Protection des routes avec filtre role:rh,admin
+
+
+### 3. Vues RH
+
+- app/Views/rh/dashboard.php - Dashboard RH
+
+    - [x] Cartes statistiques (demandes en attente, approuvées mois, employés actifs, absents aujourd'hui)
+
+    - [x] Graphique demandes par type
+
+    - [x] Liste des demandes récentes<br>
+
+---
+
+- app/Views/rh/demandes.php - Liste des demandes à traiter
+
+    - [x] Tableau avec toutes les demandes en attente
+
+    - [x] Filtres par employé et département
+
+    - [x] Boutons Approuver/Refuser
+
+    - [x] Modal pour refus avec commentaire
+
+    - [x] Modal pour confirmation approbation
+---
+
+- app/Views/rh/historique.php - Historique
+
+    - [x] Tableau des demandes traitées
+
+    - [x] Filtre par statut (approuvées, refusées, annulées)
+
+    - [x] Affichage des commentaires RH
+
+---
+
+- app/Views/rh/soldes.php - Soldes employés
+
+    - [x] Tableau récapitulatif des soldes
+
+    - [x] Barres de progression visuelles
+

@@ -12,6 +12,12 @@ class CongeModel extends Model
     protected $returnType = 'array';
     protected $allowedFields = ['employe_id', 'type_conge_id', 'date_debut', 'date_fin', 'nb_jours', 'motif', 'statut', 'commentaire_rh'];
     
+    // TIMESTAMPS AUTOMATIQUES
+    protected $useTimestamps = true;
+    protected $dateFormat = 'datetime';
+    protected $createdField = 'created_at';
+    protected $updatedField = 'updated_at';
+    
     protected $validationRules = [
         'employe_id' => 'required|integer',
         'type_conge_id' => 'required|integer',
@@ -26,17 +32,27 @@ class CongeModel extends Model
         return $this->select('conges.*, types_conge.nom as type_nom')
                     ->join('types_conge', 'types_conge.id = conges.type_conge_id')
                     ->where('employe_id', $employe_id)
-                    ->orderBy('date_debut', 'DESC')
+                    ->orderBy('created_at', 'DESC')
                     ->findAll();
     }
     
     public function getDemandesEnAttente()
     {
-        return $this->select('conges.*, employes.nom as employe_nom, employes.email, types_conge.nom as type_nom')
+        return $this->select('conges.*, employes.nom as employe_nom, employes.email, employes.departement_id, types_conge.nom as type_nom')
                     ->join('employes', 'employes.id = conges.employe_id')
                     ->join('types_conge', 'types_conge.id = conges.type_conge_id')
                     ->where('statut', 'en_attente')
                     ->orderBy('date_debut', 'ASC')
+                    ->findAll();
+    }
+    
+    public function getDemandesHistorique()
+    {
+        return $this->select('conges.*, employes.nom as employe_nom, employes.email, employes.departement_id, types_conge.nom as type_nom')
+                    ->join('employes', 'employes.id = conges.employe_id')
+                    ->join('types_conge', 'types_conge.id = conges.type_conge_id')
+                    ->where('statut !=', 'en_attente')
+                    ->orderBy('updated_at', 'DESC')
                     ->findAll();
     }
     
