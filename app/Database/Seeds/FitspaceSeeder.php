@@ -23,37 +23,40 @@ class FitspaceSeeder extends Seeder
             ['nom' => 'Congé spécial', 'total_jours_par_an' => 5, 'couleur' => '#5a2d82', 'actif' => 1, 'created_at' => date('Y-m-d H:i:s')],
         ]);
 
-        // 3. Employés
+        // 3. Employés - MOTS DE PASSE EN CLAIR (sans password_hash)
         $this->db->table('employes')->insertBatch([
             [
                 'nom' => 'Administrateur',
                 'email' => 'admin@techmada.mg',
-                'password' => password_hash('admin123', PASSWORD_DEFAULT),
+                'password' => 'admin123',  // ← En clair
                 'role' => 'admin',
                 'departement_id' => 2,
                 'date_embauche' => '2020-01-01',
                 'actif' => 1,
-                'created_at' => date('Y-m-d H:i:s')
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
             ],
             [
                 'nom' => 'Marie Rabe',
                 'email' => 'rh@techmada.mg',
-                'password' => password_hash('rh123', PASSWORD_DEFAULT),
+                'password' => 'rh123',  // ← En clair
                 'role' => 'rh',
                 'departement_id' => 2,
                 'date_embauche' => '2020-01-15',
                 'actif' => 1,
-                'created_at' => date('Y-m-d H:i:s')
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
             ],
             [
                 'nom' => 'Soa Rakoto',
                 'email' => 'employe@techmada.mg',
-                'password' => password_hash('emp123', PASSWORD_DEFAULT),
+                'password' => 'emp123',  // ← En clair
                 'role' => 'employe',
                 'departement_id' => 1,
                 'date_embauche' => '2022-03-01',
                 'actif' => 1,
-                'created_at' => date('Y-m-d H:i:s')
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
             ],
         ]);
 
@@ -72,9 +75,19 @@ class FitspaceSeeder extends Seeder
                     'total_jours' => $type['total_jours_par_an'],
                     'pris_jours' => 0,
                     'restant_jours' => $type['total_jours_par_an'],
-                    'created_at' => date('Y-m-d H:i:s')
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s')
                 ]);
             }
         }
+
+        echo "========================================\n";
+        echo "SEED EXÉCUTÉ AVEC SUCCÈS !\n";
+        echo "========================================\n";
+        echo "Comptes créés (mots de passe en clair) :\n";
+        echo "- admin@techmada.mg / admin123\n";
+        echo "- rh@techmada.mg / rh123\n";
+        echo "- employe@techmada.mg / emp123\n";
+        echo "========================================\n";
     }
 }

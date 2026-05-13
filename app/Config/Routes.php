@@ -18,4 +18,5 @@ $routes->group('employe', ['filter' => 'auth'], function($routes) {
     $routes->get('mes-demandes', 'EmployeController::index');
     $routes->post('annuler/(:num)', 'EmployeController::annuler/$1');
     $routes->get('profil', 'EmployeController::profil');
+    $routes->post('changer-mot-de-passe', 'EmployeController::changerMotDePasse');  // ← AJOUTE CETTE LIGNE
 });

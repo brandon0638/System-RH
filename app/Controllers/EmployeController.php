@@ -161,4 +161,32 @@ class EmployeController extends BaseController
             'user' => $user
         ]);
     }
+
+   public function changerMotDePasse()
+    {
+        $user = session()->get('user');
+        $employeModel = new \App\Models\EmployeModel();
+        
+        $password = $this->request->getPost('password');
+        $password_confirm = $this->request->getPost('password_confirm');
+        
+        if (empty($password)) {
+            return redirect()->back()->with('error', 'Le mot de passe ne peut pas être vide.');
+        }
+        
+        if ($password !== $password_confirm) {
+            return redirect()->back()->with('error', 'Les mots de passe ne correspondent pas.');
+        }
+        
+        if (strlen($password) < 4) {
+            return redirect()->back()->with('error', 'Le mot de passe doit contenir au moins 4 caractères.');
+        }
+        
+        // STOCKER LE MOT DE PASSE EN CLAIR (sans hash)
+        $employeModel->update($user['id'], [
+            'password' => $password  // ← Directement en clair
+        ]);
+        
+        return redirect()->back()->with('success', 'Mot de passe modifié avec succès. Nouveau mot de passe : ' . $password);
+    }
 }

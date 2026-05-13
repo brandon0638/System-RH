@@ -33,14 +33,5 @@ class EmployeModel extends Model
         ]
     ];
     
-    protected $beforeInsert = ['hashPassword'];
-    protected $beforeUpdate = ['hashPassword'];
-    
-    protected function hashPassword(array $data)
-    {
-        if (isset($data['data']['password']) && !empty($data['data']['password'])) {
-            $data['data']['password'] = password_hash($data['data']['password'], PASSWORD_DEFAULT);
-        }
-        return $data;
-    }
+    // PAS DE beforeInsert / beforeUpdate / hashPassword
 }
