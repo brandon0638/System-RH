@@ -1,0 +1,26 @@
+c'est un projet de regime alimentaire . 
+comme tu le vois tout est explliqe dans le pdf .
+ Ma partie est le back office et j'ai deja fini . 
+ Maintenant ce que je veux c'est que tu ameliore et change 
+ completement le design de ce projet que j'ai fait , 
+ regarde et fait de s recherches sur plusieurs site 
+ regime comme ca , mais dans tes recherches inclus 
+ specialement le site de commejaime.fr. Je veux quelque 
+ chose de tres beau , tres moderne qui pourrait bien attrayer 
+ les gens pas trop de couleur bien sur , et je veux voir une 
+ bonne harmonie de couleur. J'aime bien si le site soit comme un 
+ peu version anime tres moderne tu vois comme le site ou applicationde 
+ rencontre fruitz justele desgin bien sur. Maintenant ne  met jamais 
+ de css, js ou ajax dans les html de php , pour css met dans public/assets/css 
+ et pour js et ajax met dans public/assets/js . 
+ Puisque tu utilise ajax utilise une animations tres bien, pour 
+ le ajax fait que ca marche meme si il y a pas de connexion scar 
+ ici le chargement ne marche que si il y a connexion , 
+ sans connexion oin ne vois pas le chargement, et fait en sorte 
+ que le chargement soit bien et on voit bien pas cpomme ici car 
+ ici il est place en haut a gauche de plus il y a des bugs avec 
+ le chargement. Donc ce que tu fais c'est juste ameliorer le design 
+ c'est en faisant des recherches sur plusieurs site et prendre exemple 
+ surtout commejaime.fr et meme j'aime si tu le faia comme l'app fruitz
+  et utilise des vrais icons pas emoji , Tout en  respectant le theme 
+  dans le pdf bien sur et ce que j'ai deja fait juste desgin c'es tout

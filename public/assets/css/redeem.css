@@ -1,0 +1,132 @@
+:root {
+    --cream: #f5f2ea;
+    --sage: #cfe0d2;
+    --ink: #1f2f26;
+    --muted: #4e5f56;
+    --accent: #d07a1b;
+    --accent-strong: #f0b54c;
+    --card: rgba(255, 255, 255, 0.85);
+    --stroke: rgba(31, 47, 38, 0.12);
+    --shadow: 0 20px 50px rgba(31, 47, 38, 0.2);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body.redeem-page {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Space Grotesk", sans-serif;
+    color: var(--ink);
+    background:
+        radial-gradient(circle at 15% 15%, rgba(208, 122, 27, 0.25), transparent 45%),
+        radial-gradient(circle at 85% 10%, rgba(45, 79, 58, 0.22), transparent 46%),
+        linear-gradient(140deg, var(--cream), var(--sage));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(1.5rem, 5vw, 3.5rem);
+}
+
+.redeem-shell {
+    width: min(720px, 92vw);
+    background: var(--card);
+    border-radius: 28px;
+    padding: clamp(1.8rem, 5vw, 3rem);
+    border: 1px solid var(--stroke);
+    box-shadow: var(--shadow);
+    display: grid;
+    gap: 1.5rem;
+}
+
+.redeem-header h1 {
+    font-family: "Fraunces", serif;
+    font-size: clamp(2rem, 4vw, 2.6rem);
+    margin: 0.4rem 0 0.5rem;
+}
+
+.redeem-header p {
+    margin: 0;
+    color: var(--muted);
+}
+
+.back-link {
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.alert {
+    padding: 0.9rem 1.2rem;
+    border-radius: 14px;
+    border: 1px solid var(--stroke);
+    font-weight: 600;
+}
+
+.alert-error {
+    background: rgba(196, 72, 72, 0.12);
+    color: #8c2424;
+}
+
+.alert-success {
+    background: rgba(60, 151, 105, 0.18);
+    color: #1f5b3a;
+}
+
+.redeem-form {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.redeem-form label {
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--muted);
+}
+
+.input-row {
+    display: flex;
+    gap: 0.8rem;
+    align-items: stretch;
+}
+
+.input-row input {
+    flex: 1;
+    border-radius: 14px;
+    border: 1px solid var(--stroke);
+    padding: 0.85rem 1rem;
+    font-size: 1rem;
+    font-family: inherit;
+}
+
+.submit-btn {
+    padding: 0.85rem 1.6rem;
+    border-radius: 999px;
+    border: none;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(130deg, var(--accent), var(--accent-strong));
+    cursor: pointer;
+    box-shadow: 0 12px 26px rgba(208, 122, 27, 0.25);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 30px rgba(208, 122, 27, 0.3);
+}
+
+@media (max-width: 600px) {
+    .input-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .submit-btn {
+        width: 100%;
+    }
+}

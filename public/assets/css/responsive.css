@@ -1,0 +1,157 @@
+/* ============================================
+   RESPONSIVE — Regime Expert 2026
+   ============================================ */
+
+/* ── Tablet (≤1100px) ─────────────────────── */
+@media (max-width: 1100px) {
+    :root { --sidebar-w: 240px; }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .charts-row {
+        grid-template-columns: 1fr;
+    }
+
+    .form-row-3 {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* ── Small Tablet / Large Mobile (≤900px) ─── */
+@media (max-width: 900px) {
+    :root { --sidebar-w: 72px; }
+
+    /* Collapse sidebar labels */
+    .sidebar-header .logo-text,
+    .role-badge,
+    .nav-link .nav-label,
+    .nav-link .nav-badge,
+    .nav-section-label,
+    .user-info,
+    .logout-btn span {
+        display: none;
+    }
+
+    .sidebar-header {
+        padding: 1rem 0.75rem;
+        display: flex;
+        justify-content: center;
+    }
+
+    .sidebar-header .logo {
+        justify-content: center;
+    }
+
+    .nav-link {
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .nav-link .nav-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .sidebar-footer {
+        padding: 0.75rem;
+    }
+
+    .user-card {
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .logout-btn {
+        justify-content: center;
+    }
+
+    /* Topbar */
+    .topbar-left .breadcrumb { display: none; }
+    .topbar-left h1 { font-size: 17px; }
+
+    /* Stats */
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+    }
+
+    /* Content */
+    .content-body { padding: 1.25rem; }
+    .content-topbar { padding: 0 1.25rem; }
+}
+
+/* ── Mobile (≤640px) ──────────────────────── */
+@media (max-width: 640px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .charts-row {
+        grid-template-columns: 1fr;
+    }
+
+    .form-row-2,
+    .form-row-3 {
+        grid-template-columns: 1fr;
+    }
+
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .content-body { padding: 1rem; }
+
+    .welcome-banner {
+        padding: 1.25rem;
+    }
+
+    .welcome-emoji { display: none; }
+
+    .welcome-text h2 { font-size: 18px; }
+    .welcome-text p  { font-size: 13px; }
+
+    /* Table scroll */
+    .data-table-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .data-table {
+        min-width: 600px;
+    }
+
+    .topbar-date { display: none; }
+
+    .topbar-left h1 { font-size: 16px; }
+
+    .stat-value { font-size: 24px; }
+}
+
+/* ── Toast on mobile ──────────────────────── */
+@media (max-width: 480px) {
+    .toast-container {
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+    }
+
+    .toast {
+        min-width: 0;
+        max-width: none;
+        width: 100%;
+    }
+}
