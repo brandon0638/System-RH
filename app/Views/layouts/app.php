@@ -24,5 +24,6 @@
     <script src="<?= base_url('assets/js/main.js') ?>"></script>
     <script src="<?= base_url('assets/js/calendar.js') ?>"></script>
     <script src="<?= base_url('assets/js/statistiques.js') ?>"></script>
+    <script src="<?= base_url('assets/js/rh.js') ?>"></script>
 </body>
 </html>
