@@ -8,23 +8,98 @@ use App\Models\SoldeModel;
 
 class AdminController extends BaseController {
 
-    // --- 1. TABLEAU DE BORD ---
-    public function dashboard() {
-        $db = \Config\Database::connect();
-        $data['total_emp'] = $db->table('employes')->where('actif', 1)->countAllResults();
-        $data['en_attente'] = $db->table('conges')->where('statut', 'en_attente')->countAllResults();
+    public function dashboard()
+{
+    $db = \Config\Database::connect();
 
-        // Liste des absents du mois (SQLite)
-        $data['absents'] = $db->table('conges d')
-            ->select('d.*, e.nom as emp_nom, t.nom as type_nom')
-            ->join('employes e', 'e.id = d.employe_id')
-            ->join('types_conge t', 't.id = d.type_conge_id')
-            ->where('d.statut', 'approuvee')
-            ->where("strftime('%m', d.date_debut) =", date('m'))
-            ->get()->getResultArray();
+    // ==============================
+    // STATISTIQUES
+    // ==============================
+    $data['total_emp'] = $db->table('employes')
+        ->where('actif', 1)
+        ->countAllResults();
 
-        return view('admin/dashboard', $data);
+    $data['en_attente'] = $db->table('conges')
+        ->where('statut', 'en_attente')
+        ->countAllResults();
+
+    // ==============================
+    // ABSENCES DU MOIS (CORRIGÉ)
+    // ==============================
+    // Récupère toutes les absences approuvées (toutes les dates)
+    $data['absents'] = $db->table('conges d')
+        ->select('d.*, e.nom as emp_nom, t.nom as type_nom')
+        ->join('employes e', 'e.id = d.employe_id')
+        ->join('types_conge t', 't.id = d.type_conge_id')
+        ->where('d.statut', 'approuvee')
+        ->orderBy('d.date_debut', 'DESC')
+        ->get()
+        ->getResultArray();
+
+    // ==============================
+    // CONGÉS PAR MOIS
+    // ==============================
+    $resultMois = $db->query("
+        SELECT
+            strftime('%m', date_debut) AS mois_num,
+            COUNT(*) AS total
+        FROM conges
+        WHERE statut = 'approuvee'
+        GROUP BY mois_num
+        ORDER BY mois_num
+    ")->getResultArray();
+
+    $nomsMois = [
+        '01' => 'Jan', '02' => 'Fév', '03' => 'Mar',
+        '04' => 'Avr', '05' => 'Mai', '06' => 'Juin',
+        '07' => 'Juil', '08' => 'Août', '09' => 'Sep',
+        '10' => 'Oct', '11' => 'Nov', '12' => 'Déc'
+    ];
+
+    $data['congesParMois'] = [];
+
+    foreach ($resultMois as $row) {
+        $data['congesParMois'][] = [
+            'mois_num' => $row['mois_num'],
+            'mois'     => $nomsMois[$row['mois_num']] ?? $row['mois_num'],
+            'total'    => (int) $row['total']
+        ];
     }
+
+    // ==============================
+    // CONGÉS PAR JOUR
+    // ==============================
+    $resultJours = $db->query("
+        SELECT
+            CAST(strftime('%w', date_debut) AS INTEGER) AS jour_num,
+            COUNT(*) AS total
+        FROM conges
+        WHERE statut = 'approuvee'
+        GROUP BY jour_num
+        ORDER BY jour_num
+    ")->getResultArray();
+
+    $nomsJours = [
+        0 => 'Dimanche',
+        1 => 'Lundi',
+        2 => 'Mardi',
+        3 => 'Mercredi',
+        4 => 'Jeudi',
+        5 => 'Vendredi',
+        6 => 'Samedi'
+    ];
+
+    $data['congesParJour'] = [];
+
+    foreach ($resultJours as $row) {
+        $data['congesParJour'][] = [
+            'jour'  => $nomsJours[$row['jour_num']] ?? 'Inconnu',
+            'total' => (int) $row['total']
+        ];
+    }
+
+    return view('admin/dashboard', $data);
+}
 
     // --- 2. LISTE EMPLOYES ---
     public function listeEmployes() {
