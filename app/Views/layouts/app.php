@@ -8,12 +8,21 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link href="<?= base_url('assets/css/style.css') ?>" rel="stylesheet">
+    
+    <!-- FullCalendar CSS (uniquement si nécessaire, mais on peut le charger partout) -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <?= $this->renderSection('content') ?>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/locales/fr.global.min.js"></script>
     <script src="<?= base_url('assets/js/main.js') ?>"></script>
-    <script src="<?= base_url('assets/js/rh.js') ?>"></script>
+    <script src="<?= base_url('assets/js/calendar.js') ?>"></script>
+    <script src="<?= base_url('assets/js/statistiques.js') ?>"></script>
 </body>
 </html>

@@ -20,6 +20,8 @@ $routes->group('employe', ['filter' => 'auth'], function($routes) {
     $routes->get('profil', 'EmployeController::profil');
     $routes->post('changer-mot-de-passe', 'EmployeController::changerMotDePasse');
     $routes->post('modifier-nom', 'EmployeController::modifierNom'); 
+    $routes->get('calendrier', 'EmployeController::calendrier');
+    $routes->get('statistiques', 'EmployeController::statistiques');
 });
 
 // Routes RH (accès: rh et admin)
