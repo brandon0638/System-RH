@@ -196,3 +196,96 @@
 
     - [x] Barres de progression visuelles
 
+
+## Nouveautés réalisées (Suite Employé)
+
+### 1. Calendrier des congés
+
+- [x] Intégration de FullCalendar
+
+- [x] Vue Mois (dayGridMonth)
+
+- [x] Vue Semaine (timeGridWeek)
+
+- [x] Vue Jour (timeGridDay)
+
+- [x] Affichage des congés approuvés uniquement
+
+- [x] Couleurs par type de congé (Vert: Annuel, Bleu: Maladie, Violet: Spécial)
+
+- [x] Affichage du motif dans le tooltip au survol
+
+- [x] Popup de détails au clic
+
+- [x] Légende des couleurs
+
+- [x] Navigation entre semaines/mois/jours
+
+- [x] JavaScript externalisé dans calendar.js
+
+
+### 2. Statistiques & Graphiques
+
+- [x] Cartes récapitulatives (Total demandes, Approuvées, En attente, Jours restants)
+
+- [x] Graphique camembert (Pie Chart) - Demandes par type de congé
+
+- [x] Graphique barres (Bar Chart) - Jours de congé par mois
+
+- [x] Graphique barres (Bar Chart) - Jours de congé par jour de semaine
+
+- [x] Graphique anneau (Doughnut Chart) - Répartition des statuts
+
+- [x] Intégration de Chart.js en local
+
+- [x] JavaScript externalisé dans statistiques.js
+
+- [x] Design cohérent avec le thème existant
+
+### 3. Fichiers créés
+
+- [x] app/Controllers/EmployeController.php (méthodes calendrier + statistiques)
+
+- [x] app/Views/employe/calendrier.php
+
+- [x] app/Views/employe/statistiques.php
+
+- [x] public/assets/js/calendar.js
+
+- [x] public/assets/js/statistiques.js
+
+- [x] public/assets/js/chart.umd.js (Chart.js local)
+
+- [x] app/Config/Routes.php (routes mises à jour)
+
+- [x] app/Views/layouts/app.php (CDN et scripts mis à jour)
+
+
+### 4. Organisation du code
+
+- [x] JavaScript séparé des vues PHP
+
+- [x] CSS inline supprimé (déplacé dans les balises style des vues)
+
+- [x] Chart.js téléchargé localement
+
+- [x] FullCalendar reste en CDN (trop lourd)
+
+
+
+### 5. Tests à effectuer
+
+
+- [x] Vérifier que le calendrier s'affiche correctement
+
+- [x] Vérifier que les couleurs correspondent aux types
+
+- [x] Vérifier que les tooltips fonctionnent
+
+- [x] Vérifier que les graphiques se chargent correctement
+
+- [x] Vérifier que les données des graphiques concordent avec la base
+
+### 6. A faire
+
+- [x] Mise à jour du README (à faire)
