@@ -13,7 +13,7 @@
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet">
     
     <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="<?= base_url('assets/js/chart.umd.js') ?>"></script>
 </head>
 <body>
     <?= $this->renderSection('content') ?>
