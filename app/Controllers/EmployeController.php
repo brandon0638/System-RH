@@ -249,4 +249,145 @@ class EmployeController extends BaseController
         
         return redirect()->back()->with('success', 'Nom modifié avec succès. Nouveau nom : ' . $nouveau_nom);
     }
+
+    public function calendrier()
+    {
+        $user = session()->get('user');
+        $congeModel = new CongeModel();
+        
+        // Récupérer toutes les demandes approuvées
+        $conges = $congeModel->select('conges.*, types_conge.nom as type_nom, types_conge.couleur')
+            ->join('types_conge', 'types_conge.id = conges.type_conge_id')
+            ->where('employe_id', $user['id'])
+            ->where('statut', 'approuvee')
+            ->orderBy('date_debut', 'ASC')
+            ->findAll();
+        
+        // Formater les événements pour FullCalendar avec motif
+        $evenements = [];
+        foreach ($conges as $conge) {
+            $debut = $conge['date_debut'];
+            $fin = $conge['date_fin'];
+            
+            // Ajouter un jour à la date de fin pour FullCalendar (car end exclusive)
+            $dateFin = new \DateTime($fin);
+            $dateFin->modify('+1 day');
+            
+            $couleur = $conge['couleur'] ?? '#2d5a3d';
+            
+            // Construction du titre avec motif
+            $titre = $conge['type_nom'];
+            if (!empty($conge['motif'])) {
+                $titre .= ' : ' . $conge['motif'];
+            }
+            
+            $evenements[] = [
+                'title' => $titre,
+                'start' => $debut,
+                'end' => $dateFin->format('Y-m-d'),
+                'backgroundColor' => $couleur,
+                'borderColor' => $couleur,
+                'textColor' => '#ffffff',
+                'allDay' => true,
+                'extendedProps' => [
+                    'type' => $conge['type_nom'],
+                    'motif' => $conge['motif'] ?? 'Aucun motif',
+                    'nb_jours' => $conge['nb_jours']
+                ]
+            ];
+        }
+        
+        return view('employe/calendrier', [
+            'evenements' => json_encode($evenements, JSON_UNESCAPED_UNICODE),
+            'user' => $user
+        ]);
+    }
+
+    public function statistiques()
+    {
+        $user = session()->get('user');
+        $congeModel = new CongeModel();
+        $soldeModel = new SoldeModel();
+        
+        // Récupérer toutes les demandes
+        $demandes = $congeModel->getDemandesByEmploye($user['id']);
+        
+        // Statistiques globales
+        $total_demandes = count($demandes);
+        $approuvees = 0;
+        $en_attente = 0;
+        $refusees = 0;
+        $annulees = 0;
+        
+        $demandes_par_type = [
+            'Congé annuel' => 0,
+            'Congé maladie' => 0,
+            'Congé spécial' => 0
+        ];
+        
+        // Données pour les graphiques
+        $mois_labels = [];
+        $mois_donnees = [];
+        $jours_labels = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+        $jours_donnees = [0, 0, 0, 0, 0, 0, 0];
+        
+        foreach ($demandes as $demande) {
+            // Compter par statut
+            switch ($demande['statut']) {
+                case 'approuvee': $approuvees++; break;
+                case 'en_attente': $en_attente++; break;
+                case 'refusee': $refusees++; break;
+                case 'annulee': $annulees++; break;
+            }
+            
+            // Compter par type
+            if (isset($demandes_par_type[$demande['type_nom']])) {
+                $demandes_par_type[$demande['type_nom']]++;
+            }
+            
+            // Si approuvée, analyser les jours
+            if ($demande['statut'] === 'approuvee') {
+                $debut = new \DateTime($demande['date_debut']);
+                $fin = new \DateTime($demande['date_fin']);
+                $interval = new \DateInterval('P1D');
+                $periode = new \DatePeriod($debut, $interval, $fin->modify('+1 day'));
+                
+                foreach ($periode as $date) {
+                    // Par mois
+                    $mois = $date->format('F');
+                    if (!isset($mois_donnees[$mois])) {
+                        $mois_donnees[$mois] = 0;
+                    }
+                    $mois_donnees[$mois]++;
+                    
+                    // Par jour de semaine (1=Lundi, 7=Dimanche)
+                    $jourNum = $date->format('N');
+                    $jours_donnees[$jourNum - 1]++;
+                }
+            }
+        }
+        
+        // Préparer les données pour Chart.js
+        $mois_labels = array_keys($mois_donnees);
+        $mois_donnees_values = array_values($mois_donnees);
+        
+        // Soldes
+        $soldes = $soldeModel->getSoldesByEmploye($user['id']);
+        $total_restant = array_sum(array_column($soldes, 'restant_jours'));
+        
+        return view('employe/statistiques', [
+            'total_demandes' => $total_demandes,
+            'approuvees' => $approuvees,
+            'en_attente' => $en_attente,
+            'refusees' => $refusees,
+            'annulees' => $annulees,
+            'demandes_par_type' => $demandes_par_type,
+            'mois_labels' => json_encode($mois_labels),
+            'mois_donnees' => json_encode($mois_donnees_values),
+            'jours_labels' => json_encode($jours_labels),
+            'jours_donnees' => json_encode($jours_donnees),
+            'total_restant' => $total_restant,
+            'user' => $user
+        ]);
+    }
 }

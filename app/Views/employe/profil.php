@@ -13,6 +13,8 @@
             <li><a href="<?= base_url('/employe/create') ?>"><i class="bi bi-plus-circle"></i> Nouvelle demande</a></li>
             <li><a href="<?= base_url('/employe/mes-demandes') ?>"><i class="bi bi-calendar3"></i> Mes demandes</a></li>
             <li><a href="<?= base_url('/employe/profil') ?>" class="active"><i class="bi bi-person"></i> Mon profil</a></li>
+            <li><a href="<?= base_url('/employe/calendrier') ?>"><i class="bi bi-calendar-week"></i> Calendrier</a></li>
+            <li><a href="<?= base_url('/employe/statistiques') ?>"><i class="bi bi-graph-up"></i> Statistiques</a></li>
         </ul>
         <div class="sidebar-user">
             <div class="s-user-row">
