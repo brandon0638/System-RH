@@ -32,7 +32,15 @@ $routes->group('rh', ['filter' => 'auth'], function($routes) {
     $routes->get('soldes', 'RhController::soldes');
 });
 
-// Routes Admin (à venir)
-$routes->group('admin', ['filter' => 'auth'], function($routes) {
-    $routes->get('dashboard', 'AdminController::dashboard');
+$routes->group('admin', ['filter' => ['auth', 'role:admin']], function($routes) {
+    // 1. Le Dashboard
+    $routes->get('dashboard', 'Admin\AdminController::dashboard');
+
+    // 2. Gestion des Employés
+    $routes->get('employes', 'Admin\AdminController::listeEmployes');
+    $routes->get('employes/nouveau', 'Admin\AdminController::formEmploye'); // Formulaire ajout
+    $routes->post('employes/enregistrer', 'Admin\AdminController::saveEmploye'); // Action enregistrer
+    $routes->get('employes/statut/(:num)', 'Admin\AdminController::toggleStatut/$1'); // Activer/Désactiver
+    // 3. Types de congés
+    $routes->get('types', 'Admin\AdminController::listeTypes');
 });
